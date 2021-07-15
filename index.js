@@ -10,37 +10,12 @@ db.on('ready', () => {
   console.log(`Connected`)
 })
 
-const passport = require('passport')
+
 
 ///express/////
 const express = require('express');
 const app = express();
-var DiscordStrategy = require('passport-discord').Strategy; 
-var scopes = ['identify', 'email', 'guilds', 'guilds.join'];
-passport.use(new DiscordStrategy({ 
-  clientID: '854937987169910835', 
-  clientSecret: 'NxY8o-gGXaO_MjUA7HX4rZKeAy0-YALh', 
-  callbackURL: 'https://jellyop.repl.co', 
-  scope: scopes 
-  
-}, 
-  function(accessToken, refreshToken, profile, cb) { 
-    User.findOrCreate({ 
-      discordId: profile.id 
-      
-    }, 
-    function(err, user) { 
-      return cb(err, user);
-      }); 
-    
-  }));
-app.get('/auth/discord', passport.authenticate('discord'));
-app.get('/auth/discord/callback', passport.authenticate('discord', { failureRedirect: '/' 
-  
-}), 
-function(req, res) {
-  res.redirect('/')
-})
+
 app.get('/bal/:query', async (req, res) => {
 const userID = req.params.query;
 if(!userID) return res.status(404).send(`Please Enter an user ID to fetch data`)
